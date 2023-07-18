@@ -5,14 +5,14 @@ const MarketoIngestor = require('./marketo-ingestor')
 
 class IngestorCreator {
     create (params) {
-        switch (params.fileDestination) {
-            case 'azure':
+        // switch (params.fileDestination) {
+        //     case 'azure':
                 return new AzureIngestor(params);
-            case 'marketo':
-                return new MarketoIngestor(params);
-            default:
-                logger.error('Unknown ingestor type...');
-        }
+        //     case 'marketo':
+        //         return new MarketoIngestor(params);
+        //     default:
+        //         logger.error('Unknown ingestor type...');
+        // }
     }
 }
 

@@ -39,6 +39,8 @@ application:
               customAzureStorageAccount : $CUSTOM_AZURE_STORAGEACCOUNT
               customAzureStorageKey : $CUSTOM_AZURE_STORAGEKEY
               customAzureContainerName : $CUSTOM_AZURE_CONTAINERNAME
+              sasURLAzurePublic: $SAS_URL_PUBLIC
+              sasURLAzurePrivate: $SAS_URL_PRIVATE
             limits:
               timeout: 600000
               memorySize: 2048
@@ -70,6 +72,8 @@ application:
               customAzureStorageAccount : $CUSTOM_AZURE_STORAGEACCOUNT
               customAzureStorageKey : $CUSTOM_AZURE_STORAGEKEY
               customAzureContainerName : $CUSTOM_AZURE_CONTAINERNAME
+              sasURLAzurePublic: $SAS_URL_PUBLIC
+              sasURLAzurePrivate: $SAS_URL_PRIVATE
             annotations:
               require-adobe-auth: true
               final: true

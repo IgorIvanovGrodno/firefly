@@ -13,26 +13,41 @@ async function main (params) {
   try {
     // 'info' is the default level if not set
     logger.info('Inside aem-file-export/event-handler.js main');
-    //logger.info(stringParameters(params));
+    logger.info(stringParameters(params));
 
     if (Object.keys(params).length > 0) {
       const event = params.event;
-      const contentPath = event['activitystreams:object']['xdmAsset:path'];
+      // const contentPath = event['activitystreams:object']['xdmAsset:path'];
+      const contentPath = '/content/dam/ihar-test/image/image.png';
 
       let responseBody;
       if (contentPath.startsWith("/content/dam")) {
         logger.info("asset content path:" + contentPath);
         const assetMetadata = await getAssetMetadata(params.aemAuthorHost, params.aemServiceCredentials, contentPath);
-        if (assetMetadata['exportDestination'] && assetMetadata['exportImmediately'] === 'yes') {
-          //export the asset immediately based on the exportDestination
-          logger.info(`got exportDestination: ${assetMetadata['exportDestination']} and set to params`);
-          params.fileDestination = assetMetadata['exportDestination'];
+
+        const aemServiceCredentials = params.aemServiceCredentials;
+        this.aemtoken = await getAEMAccessToken(JSON.parse(aemServiceCredentials));
+
+        const aemAssetUrl = params.aemAuthorHost + contentPath;
+        logger.info(`downloading asset from "${aemAssetUrl}" at ${new Date().toISOString()}`);
+        // const aemStream = await fetch(aemAssetUrl, {
+        //   method: 'GET',
+        //   headers: {
+        //     'Authorization': 'Bearer ' + this.aemtoken
+        //   }
+        // });
+        // logger.info('stream: ' + aemStream);
+        // if (assetMetadata['exportDestination'] && assetMetadata['exportImmediately'] === 'yes') {
+        //   //export the asset immediately based on the exportDestination
+        //   logger.info(`got exportDestination: ${assetMetadata['exportDestination']} and set to params`);
+        //   params.fileDestination = assetMetadata['exportDestination'];
           const FileIngestor = IngestorCreator.create(params);
           await FileIngestor.init();
 
           logger.info(`exporting asset: "${contentPath}"`);
           responseBody = await FileIngestor.ingestAemAsset(contentPath);
-        }
+        // }
+        logger.info("metadata:" + assetMetadata['dc:title']);
 
         const response = {
           statusCode: 200,
